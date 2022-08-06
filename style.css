@@ -1,0 +1,51 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.map {
+    display: inline-block;
+}
+
+.row {
+    margin: 0 auto;
+    background-color: aqua;
+    border: solid 1px black;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+#point {
+    height: 20px;
+    width: 20px;
+}
+
+.wall {
+    background-color: rgb(177, 177, 248);
+}
+
+.player {
+    background-color: beige;
+}
+
+.box {
+    background-color: brown;
+}
+
+.goal {
+    background-color: green;
+}
+
+.box_on_goal {
+    background-color: yellow;
+}
+
+.player_on_goal {
+    background-color: violet;
+}
+
+.floor {
+    background-color: white;
+}
