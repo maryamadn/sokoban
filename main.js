@@ -1,7 +1,9 @@
 import $, { each, event } from 'jquery'
 
 const app = {
+    playerPosition: '???',
     level: 0,
+    currentMap: [],
     maps: [
 `####
 # .#
@@ -44,8 +46,8 @@ const app = {
 }
 
 
-const currentMap = app.maps[app.level] //map of current level
 const currentMapProcessing = () => {//to render map readable
+    const currentMap = app.maps[app.level] //map of current level
     const currentMapRows = currentMap.split('\n') //create rows
     const currentMapArray = []
     for (const row in currentMapRows) {
@@ -55,13 +57,14 @@ const currentMapProcessing = () => {//to render map readable
     return currentMapArray
 }
 
-const paintOriginalMap = () => {
+const paintMap = () => {
+    app.currentMap = currentMapProcessing()
     const $body = $('body')
     const $map = $('<section>').addClass('map')
-    for (const row in currentMapProcessing()) { //for each row of map
+    for (const row in app.currentMap) { //for each row of map
         const $section = $('<section>').addClass('row')//each section represents a row
-        for (const point in currentMapProcessing()[row]) { //for each point in each row
-            let pointSymbol = currentMapProcessing()[row][point] //each point
+        for (const point in app.currentMap[row]) { //for each point in each row
+            let pointSymbol = app.currentMap[row][point] //each point
             if (pointSymbol === '#') {
                 pointSymbol = 'wall'
             } else if (pointSymbol === '@') {
@@ -87,41 +90,101 @@ const paintOriginalMap = () => {
 }
 
 
-
-paintOriginalMap()
-
-
-//paint new map
-
-
 //find player's point
-const playerPosition = () => {
-    for (const row in currentMapProcessing()) {
+const playerOriginalPosition = () => {
+    for (const row in app.currentMap) {
         const position = []
-        for (const column in currentMapProcessing()) {
-            if (currentMapProcessing()[row][column] === '@') {//check if the element is @
-                position.push(row, column)
+        for (const column in app.currentMap) {
+            if (app.currentMap[row][column] === '@') {//check if the element is @
+                position.push(parseInt(row), parseInt(column))
                 return position
             }
         }
     }
 }
 
+paintMap()
+// console.log(playerOriginalPosition())
+// console.log(app)
+
+
+//paint new map
+
+
+
 //detect movement and change map
 
 
-window.onkeydown = (event) => { //finds out which arrow key is pressed and updates playerPosition
+window.onkeydown = (event) => { //finds out which arrow key is pressed and updates playerPosition etc
+    const playerPosition = playerOriginalPosition()
     if (event.key==='ArrowUp') {
-        console.log(playerPosition()[0] -=1)
+        const precedingPoint = [] //for behind new player position
+        precedingPoint[0] = playerPosition[0]
+        precedingPoint[1] = playerPosition[1]
+        
+        playerPosition[0] -=1
 
+
+        const followingPoint = [] //for infront of new player position
+        followingPoint[0] = playerPosition[0] -1
+        followingPoint[1] = playerPosition[1]
+
+        console.log(precedingPoint)
+        console.log(playerPosition)
+        console.log(followingPoint)
+        console.log('up')
     } else if (event.key==='ArrowDown') {
-        console.log(playerPosition()[0] +=1)
+        const precedingPoint = [] //for behind new player position
+        precedingPoint[0] = playerPosition[0]
+        precedingPoint[1] = playerPosition[1]
+        
+        playerPosition[0] +=1
+
+
+        const followingPoint = [] //for infront of new player position
+        followingPoint[0] = playerPosition[0] +1
+        followingPoint[1] = playerPosition[1]
+
+        console.log(precedingPoint)
+        console.log(playerPosition)
+        console.log(followingPoint)
+
         console.log('down')
     } else if (event.key==='ArrowLeft') {
-        console.log(playerPosition()[1] -=1)
+        const precedingPoint = [] //for behind new player position
+        precedingPoint[0] = playerPosition[0]
+        precedingPoint[1] = playerPosition[1]
+        
+        playerPosition[1] -=1
+
+
+        const followingPoint = [] //for infront of new player position
+        followingPoint[0] = playerPosition[0]
+        followingPoint[1] = playerPosition[1] -1
+
+        console.log(precedingPoint)
+        console.log(playerPosition)
+        console.log(followingPoint)
+
         console.log('left')
     } else if (event.key==='ArrowRight') {
-        console.log(playerPosition()[1] +=1)
+        const precedingPoint = [] //for behind new player position
+        precedingPoint[0] = playerPosition[0]
+        precedingPoint[1] = playerPosition[1]
+        
+        playerPosition[1] +=1
+
+
+        const followingPoint = [] //for infront of new player position
+        followingPoint[0] = playerPosition[0]
+        followingPoint[1] = playerPosition[1] +1
+
+        console.log(precedingPoint)
+        console.log(playerPosition)
+        console.log(followingPoint)
+
         console.log('right')
     }
 }
+
+//every move will change current, new and ahead point
