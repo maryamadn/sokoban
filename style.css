@@ -11,18 +11,18 @@ body {
 .row {
     margin: 0 auto;
     background-color: aqua;
-    border: solid 1px black;
     display: flex;
     flex-direction: row;
-    
+
 }
 
 #point {
     height: 20px;
     width: 20px;
+    border: solid 1px black;
 }
 
-.wall {
+/* .wall {
     background-color: rgb(177, 177, 248);
 }
 
@@ -48,4 +48,4 @@ body {
 
 .floor {
     background-color: white;
-}
+} */
