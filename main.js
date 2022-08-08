@@ -1,7 +1,7 @@
 import $, { each, event, post } from 'jquery'
 
 const app = {
-    level: 0,
+    level: 2,
     original: true,
     allCoordinates: [],
     // prevCoordinates: [],
@@ -96,8 +96,6 @@ const paintMap = () => {
 }
 
 
-
-
 //find player's original point
 const playerOriginalPosition = () => {
     for (const row in app.currentMap) {
@@ -112,7 +110,6 @@ const playerOriginalPosition = () => {
 }
 
 
-
 paintMap()//can be used for reset
 //switch case
 window.onkeydown = (event) => { //finds out which arrow key is pressed and updates playerPosition, precedingPoint, and followingPoint
@@ -121,16 +118,6 @@ window.onkeydown = (event) => { //finds out which arrow key is pressed and updat
     let coordinates = [] //compile all coordinates
     let precedingPoint = []
     let followingPoint = []
-
-    // if (!app.original) {
-    //     precedingPoint = app.allCoordinates[0]
-    //     playerPosition = app.allCoordinates[1]
-    //     followingPoint = app.allCoordinates[2]
-    //     coordinates.push(precedingPoint, playerPosition, followingPoint)
-
-    //     console.log('here')
-    // }
-    // app.prevCoordinates = [precedingPoint, playerPosition, followingPoint]
 
     if (event.key === 'ArrowUp') {
         precedingPoint[0] = playerPosition[0]
@@ -187,27 +174,23 @@ window.onkeydown = (event) => { //finds out which arrow key is pressed and updat
     if (restrictedRow >= 0 && restrictedColumn >= 0 && restrictedRow1 >= 0 && restrictedColumn1 >= 0 ) {
         restrictions = app.currentMap[restrictedRow][restrictedColumn] //check for restrictions of player movement
         restrictions1 = app.currentMap[restrictedRow1][restrictedColumn1] //check for restrictions based on following point
-        // console.log(restrictions)
-        // console.log(restrictions1)
         if (restrictions === '#' || ((restrictions === '$' || restrictions === '*') && (restrictions1 === '#' || restrictions1 === '$' || restrictions1 === '*'))) {//check restriction: whether the player has a wall infront of them or not
             console.log('in grid but move restricted')
-            // console.log(app.allCoordinates)
         } else {
             app.allCoordinates = coordinates
             console.log('dapat move')
-            // console.log(app.allCoordinates)
             updateSymbols()
             paintMap()
+            console.log(app.currentMap)
         }
     } else {
         console.log('over the grid alr')
         app.allCoordinates = []
-        // console.log(app.allCoordinates)
     }
 
 
-    app.original = false//!!!!!!!!!!!!!!!!!!!!!!!!!!double check
-    // console.log(app.allCoordinates)
+    app.original = false//!!!!!!!!!!!!!!!!!!double check
+
     // render()
     
 
@@ -243,11 +226,13 @@ const updateSymbols = () => {
                 } else if (point === '.' || point === '*') {//goal or box on goal
                     app.currentMap[row][column] = '+'//player on goal
                 }
-            } else if (i === 2) {//following points only need to change to box or box on goal
-                if (point === ' ' || point === '.') {
-                    if (prevPoint === '$') {
+            } else if (i === 2) {//following points only need to change to box or box on goal, all depending on prevpoint
+                if (point === ' ') {
+                    if (prevPoint === '$' || prevPoint === '*') {
                         app.currentMap[row][column] = '$'
-                    } else if (prevPoint === '*') {
+                    }
+                } else if (point === '.') {
+                    if (prevPoint === '$' || prevPoint === '*') {
                         app.currentMap[row][column] = '*'
                     }
                 }
@@ -256,3 +241,11 @@ const updateSymbols = () => {
         }
     }
 }
+
+
+//next step: check for win --> check if no $, only *. incorporate in paintmap
+//++ reset button
+//level++
+//repeat
+
+//
