@@ -4,7 +4,7 @@ const app = {
     level: 2,
     original: true,
     allCoordinates: [],
-    // prevCoordinates: [],
+    win: false,
     currentMap: [],
     maps: [//put in separate js file and import/export eg export function setupCounter(element) and  imprt {setupCounter} from 'file.js'
         `####
@@ -109,8 +109,19 @@ const playerOriginalPosition = () => {
     }
 }
 
+//++ reset button
+const reset = () => {
+    const $reset = $('<button>').addClass('reset').text('RESET')
+    $('body').append($reset)
+    $reset.on('click', () => {
+        app.original = true
+        paintMap()
+    })
+}
+//
 
-paintMap()//can be used for reset
+paintMap()
+//can be used for reset
 //switch case
 window.onkeydown = (event) => { //finds out which arrow key is pressed and updates playerPosition, precedingPoint, and followingPoint
     // paintMap()
@@ -181,7 +192,8 @@ window.onkeydown = (event) => { //finds out which arrow key is pressed and updat
             console.log('dapat move')
             updateSymbols()
             paintMap()
-            console.log(app.currentMap)
+            reset()
+            checkForWin()
         }
     } else {
         console.log('over the grid alr')
@@ -244,8 +256,13 @@ const updateSymbols = () => {
 
 
 //next step: check for win --> check if no $, only *. incorporate in paintmap
-//++ reset button
-//level++
-//repeat
-
-//
+const checkForWin = () => {//check if there are any boxes not on goal ($)
+    let combinedMapArray = []
+    for (let i = 0; i <=app.currentMap.length; i++) {
+        combinedMapArray = combinedMapArray.concat(app.currentMap[i])
+    }
+    if (combinedMapArray.every(x => x !== '$')) {
+        alert(`Level ${app.level} complete!`)
+        app.level++//go to next level
+    }
+}

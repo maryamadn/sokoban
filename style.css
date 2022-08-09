@@ -49,3 +49,9 @@ body {
 .floor {
     background-color: white;
 } */
+
+button {
+    height: 20px;
+    width: 70px;
+    text-align: center;
+}
