@@ -54,6 +54,8 @@ button {
     height: 20px;
     width: 70px;
     text-align: center;
+    font-weight: 600;
+    border-radius: 20px;
 }
 
 footer {

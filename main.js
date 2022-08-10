@@ -1,10 +1,10 @@
 import $, { each, event, post } from 'jquery'
 
 const app = {
-    level: 2,
+    level: 4,
     original: true,
     allCoordinates: [],
-    // win: false,
+    page: 'gamePage',
     currentMap: [],
     maps: [//put in separate js file and import/export eg export function setupCounter(element) and  imprt {setupCounter} from 'file.js'
         `####
@@ -76,10 +76,23 @@ const checkForWin = () => {//check if there are any boxes not on goal ($)
         $nextLevel.on('click', () => {
             app.original = true
             app.level++
-            $('.winBanner').css('background-color','none')
-            $('.winBanner').empty()
-            // $('footer').empty()
+            if (app.level < app.maps.length) {
+                $winBanner.empty()
+                app.currentMap = originalMapProcessing()
+                paintMap()//dont need checkforwin n reset here
+            } else {
+                console.log('youre too genius! no more levels available </3')
+                $winBannerBG.css('background-color', 'yellow')
+                $winBannerMain.text(`You're too much of a genius!`)
+                $winBannerSub.text('No more levels available :(')
+                $nextLevel.text('END')
+                $nextLevel.on('click', () => {
+                    $('.mainPage').show()
+                    $('.gamePage').hide()
+                })
+            }
         })
+
         $('body').append($winBanner)
         $winBanner.append($winBannerBG)
         $winBanner.append($winBannerMain)
@@ -90,7 +103,7 @@ const checkForWin = () => {//check if there are any boxes not on goal ($)
 }
 
 const paintMap = () => {
-    $('.levelHeader').text(`LEVEL #${app.level}`)
+    $('.levelHeader').text(`LEVEL #${app.level+1}`)
 
     const $gameContainer = $('.gameContainer')
     $gameContainer.empty()
@@ -147,7 +160,7 @@ const playerOriginalPosition = () => {
     }
 }
 
-//++ reset button
+//reset and quit button
 const resetAndQuit = () => {
     $('.reset').on('click', () => {
         app.original = true
@@ -155,113 +168,115 @@ const resetAndQuit = () => {
         paintMap()
         console.log('resetinh')
     })
-    $('.quit').on('click', () => {
+    $('.quit').on('click', () => {//hide this and go to username page
         console.log('quittin')
+        $('.mainPage').show()
+        $('.gamePage').hide()
     })
 }
-//
 
-// paintMap()
-if (app.original) {
-    app.currentMap = originalMapProcessing()
-}
-paintMap()
-//switch case
-window.onkeydown = (event) => { //finds out which arrow key is pressed and updates playerPosition, precedingPoint, and followingPoint
+
+// paint map at the start of every level
+$('.mainPage').show()
+$('.gamePage').hide()
+//use states to do hide show which page
+$('.newGameButton').on('click', () => {//hide this and go to game page
+    console.log('quittin')
+    $('.gamePage').show()
+    $('.mainPage').hide()
+})
+
+
+const main = () => {
     if (app.original) {
         app.currentMap = originalMapProcessing()
-    }
-    let playerPosition = playerOriginalPosition()
-    let coordinates = [] //compile all coordinates
-    let precedingPoint = []
-    let followingPoint = []
-
-    if (event.key === 'ArrowUp') {
-        precedingPoint[0] = playerPosition[0]
-        precedingPoint[1] = playerPosition[1]
-
-        playerPosition[0] -= 1
-
-        followingPoint[0] = playerPosition[0] - 1
-        followingPoint[1] = playerPosition[1]
-
-        console.log('up')
-    } else if (event.key === 'ArrowDown') {
-        precedingPoint[0] = playerPosition[0]
-        precedingPoint[1] = playerPosition[1]
-
-        playerPosition[0] += 1
-
-        followingPoint[0] = playerPosition[0] + 1
-        followingPoint[1] = playerPosition[1]
-
-        console.log('down')
-    } else if (event.key === 'ArrowLeft') {
-        precedingPoint[0] = playerPosition[0]
-        precedingPoint[1] = playerPosition[1]
-
-        playerPosition[1] -= 1
-
-        followingPoint[0] = playerPosition[0]
-        followingPoint[1] = playerPosition[1] - 1
-
-        console.log('left')
-    } else if (event.key === 'ArrowRight') {
-        precedingPoint[0] = playerPosition[0]
-        precedingPoint[1] = playerPosition[1]
-
-        playerPosition[1] += 1
-
-        followingPoint[0] = playerPosition[0]
-        followingPoint[1] = playerPosition[1] + 1
-
-        console.log('right')
+        paintMap()//dont need checkforwin n reset here
     }
 
-    coordinates[0] = precedingPoint
-    coordinates[1] = playerPosition
-    coordinates[2] = followingPoint
-
-    const restrictedRow = coordinates[1][0]
-    const restrictedColumn = coordinates[1][1]
-    const restrictedRow1 = coordinates[2][0]
-    const restrictedColumn1 = coordinates[2][1]
-    let restrictions = ''
-    let restrictions1 = ''
-    if (restrictedRow >= 0 && restrictedColumn >= 0 && restrictedRow1 >= 0 && restrictedColumn1 >= 0 && restrictedRow1 < app.currentMap.length) {//cannot have - numbers and also over the grid numbers
-        restrictions = app.currentMap[restrictedRow][restrictedColumn] //check for restrictions of player movement
-        console.log(restrictedRow1, restrictedColumn1)
-        restrictions1 = app.currentMap[restrictedRow1][restrictedColumn1] //check for restrictions based on following point
-        if (restrictions === '#' || ((restrictions === '$' || restrictions === '*') && (restrictions1 === '#' || restrictions1 === '$' || restrictions1 === '*'))) {//check restriction: whether the player has a wall infront of them or not
-            console.log('in grid but move restricted')
-        } else {
-            app.allCoordinates = coordinates
-            console.log('dapat move')
-            updateSymbols()
-            paintMap()
-            // checkForWin()
+    window.onkeydown = (event) => { //finds out which arrow key is pressed and updates playerPosition, precedingPoint, and followingPoint
+        if (app.original) {
+            app.currentMap = originalMapProcessing()
         }
-    } else {
-        console.log('over the grid alr')
-        app.allCoordinates = []
+        let playerPosition = playerOriginalPosition()
+        let coordinates = [] //compile all coordinates
+        let precedingPoint = []
+        let followingPoint = []
+    
+        if (event.key === 'ArrowUp') {
+            precedingPoint[0] = playerPosition[0]
+            precedingPoint[1] = playerPosition[1]
+    
+            playerPosition[0] -= 1
+    
+            followingPoint[0] = playerPosition[0] - 1
+            followingPoint[1] = playerPosition[1]
+    
+            console.log('up')
+        } else if (event.key === 'ArrowDown') {
+            precedingPoint[0] = playerPosition[0]
+            precedingPoint[1] = playerPosition[1]
+    
+            playerPosition[0] += 1
+    
+            followingPoint[0] = playerPosition[0] + 1
+            followingPoint[1] = playerPosition[1]
+    
+            console.log('down')
+        } else if (event.key === 'ArrowLeft') {
+            precedingPoint[0] = playerPosition[0]
+            precedingPoint[1] = playerPosition[1]
+    
+            playerPosition[1] -= 1
+    
+            followingPoint[0] = playerPosition[0]
+            followingPoint[1] = playerPosition[1] - 1
+    
+            console.log('left')
+        } else if (event.key === 'ArrowRight') {
+            precedingPoint[0] = playerPosition[0]
+            precedingPoint[1] = playerPosition[1]
+    
+            playerPosition[1] += 1
+    
+            followingPoint[0] = playerPosition[0]
+            followingPoint[1] = playerPosition[1] + 1
+    
+            console.log('right')
+        }
+    
+        coordinates[0] = precedingPoint
+        coordinates[1] = playerPosition
+        coordinates[2] = followingPoint
+    
+        const restrictedRow = coordinates[1][0]
+        const restrictedColumn = coordinates[1][1]
+        const restrictedRow1 = coordinates[2][0]
+        const restrictedColumn1 = coordinates[2][1]
+        let restrictions = ''
+        let restrictions1 = ''
+        if (restrictedRow >= 0 && restrictedColumn >= 0 && restrictedRow1 >= 0 && restrictedColumn1 >= 0 && restrictedRow1 < app.currentMap.length) {//cannot have - numbers and also over the grid numbers
+            restrictions = app.currentMap[restrictedRow][restrictedColumn] //check for restrictions of player movement
+            console.log(restrictedRow1, restrictedColumn1)
+            restrictions1 = app.currentMap[restrictedRow1][restrictedColumn1] //check for restrictions based on following point
+            if (restrictions === '#' || ((restrictions === '$' || restrictions === '*') && (restrictions1 === '#' || restrictions1 === '$' || restrictions1 === '*'))) {//check restriction: whether the player has a wall infront of them or not
+                console.log('in grid but move restricted')
+            } else {
+                app.allCoordinates = coordinates
+                console.log('dapat move')
+                updateSymbols()
+                paintMap()
+                app.original = false//!!!!!!!!!!!!!!!!!!double check
+            }
+        } else {
+            console.log('over the grid alr')
+            app.allCoordinates = []
+        }
     }
-    // updateSymbols()
-    // paintMap()
-    // checkForWin()
-    app.original = false//!!!!!!!!!!!!!!!!!!double check
-    // render()
-    // reset()
 }
 
+main()
 
 
-// const render = () => {
-//     updateSymbols(playerPosition)
-// }
-
-
-
-//change to switch case
 //check restriction and change symbols
 const updateSymbols = () => {
     for (let i = 2; i>=0; i--) {//change....
@@ -300,5 +315,3 @@ const updateSymbols = () => {
         }
     }
 }
-
-
