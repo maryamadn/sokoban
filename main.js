@@ -4,7 +4,7 @@ const app = {
     level: 2,
     original: true,
     allCoordinates: [],
-    win: false,
+    // win: false,
     currentMap: [],
     maps: [//put in separate js file and import/export eg export function setupCounter(element) and  imprt {setupCounter} from 'file.js'
         `####
@@ -60,12 +60,42 @@ const originalMapProcessing = () => {//to render map readable (from string to ar
     return currentMapArray
 }
 
-const paintMap = () => {
-    if (app.original) {
-        app.currentMap = originalMapProcessing()
+//next step: check for win --> check if no $, only *. incorporate in paintmap
+const checkForWin = () => {//check if there are any boxes not on goal ($)
+    let combinedMapArray = []
+    for (let i = 0; i <=app.currentMap.length; i++) {
+        combinedMapArray = combinedMapArray.concat(app.currentMap[i])
     }
-    const $body = $('body')
-    $body.empty()
+    if (combinedMapArray.every(x => x !== '$')) {
+        const $winBanner = $('.winBanner')
+        const $winBannerBG = $('<div>').addClass('winBannerBG')
+        const $winBannerMain = $('<p>').addClass('winBannerMain').text('LEVEL COMPLETE!')
+        const $winBannerSub = $('<p>').addClass('winBannerSub').text('Your progress has been saved :)')
+
+        const $nextLevel = $('<button>').addClass('nextLevel').text('NEXT LEVEL')
+        $nextLevel.on('click', () => {
+            app.original = true
+            app.level++
+            $('.winBanner').css('background-color','none')
+            $('.winBanner').empty()
+            // $('footer').empty()
+        })
+        $('body').append($winBanner)
+        $winBanner.append($winBannerBG)
+        $winBanner.append($winBannerMain)
+        $winBanner.append($winBannerSub)
+        $winBanner.append($nextLevel)
+    }
+
+}
+
+const paintMap = () => {
+    $('.levelHeader').text(`LEVEL #${app.level}`)
+
+    const $gameContainer = $('.gameContainer')
+    $gameContainer.empty()
+    $('.winBanner').empty()
+    $('footer').empty()
     const $map = $('<section>').addClass('map')
     for (const row of app.currentMap) { //for each row of map
         const $section = $('<section>').addClass('row')//each section represents a row
@@ -89,10 +119,18 @@ const paintMap = () => {
             const $div = $('<div>').text(point).addClass(pointSymbol).attr('id', 'point') //each div represents a point with respective classes (except ' ')
             $section.append($div)
         }
-        $body.append($map)
+        $('header').after($gameContainer)
+        $gameContainer.append($map)
         $map.append($section)
     }
-    return $body
+    const $reset = $('<button>').addClass('reset').text('RESET')
+    $('footer').append($reset)
+    
+    const $quit = $('<button>').addClass('quit').text('QUIT')
+    $('footer').append($quit)
+
+    resetAndQuit()
+    checkForWin()
 }
 
 
@@ -110,21 +148,29 @@ const playerOriginalPosition = () => {
 }
 
 //++ reset button
-const reset = () => {
-    const $reset = $('<button>').addClass('reset').text('RESET')
-    $('body').append($reset)
-    $reset.on('click', () => {
+const resetAndQuit = () => {
+    $('.reset').on('click', () => {
         app.original = true
+        app.currentMap = originalMapProcessing()
         paintMap()
+        console.log('resetinh')
+    })
+    $('.quit').on('click', () => {
+        console.log('quittin')
     })
 }
 //
 
+// paintMap()
+if (app.original) {
+    app.currentMap = originalMapProcessing()
+}
 paintMap()
-//can be used for reset
 //switch case
 window.onkeydown = (event) => { //finds out which arrow key is pressed and updates playerPosition, precedingPoint, and followingPoint
-    // paintMap()
+    if (app.original) {
+        app.currentMap = originalMapProcessing()
+    }
     let playerPosition = playerOriginalPosition()
     let coordinates = [] //compile all coordinates
     let precedingPoint = []
@@ -182,8 +228,9 @@ window.onkeydown = (event) => { //finds out which arrow key is pressed and updat
     const restrictedColumn1 = coordinates[2][1]
     let restrictions = ''
     let restrictions1 = ''
-    if (restrictedRow >= 0 && restrictedColumn >= 0 && restrictedRow1 >= 0 && restrictedColumn1 >= 0 ) {
+    if (restrictedRow >= 0 && restrictedColumn >= 0 && restrictedRow1 >= 0 && restrictedColumn1 >= 0 && restrictedRow1 < app.currentMap.length) {//cannot have - numbers and also over the grid numbers
         restrictions = app.currentMap[restrictedRow][restrictedColumn] //check for restrictions of player movement
+        console.log(restrictedRow1, restrictedColumn1)
         restrictions1 = app.currentMap[restrictedRow1][restrictedColumn1] //check for restrictions based on following point
         if (restrictions === '#' || ((restrictions === '$' || restrictions === '*') && (restrictions1 === '#' || restrictions1 === '$' || restrictions1 === '*'))) {//check restriction: whether the player has a wall infront of them or not
             console.log('in grid but move restricted')
@@ -192,21 +239,21 @@ window.onkeydown = (event) => { //finds out which arrow key is pressed and updat
             console.log('dapat move')
             updateSymbols()
             paintMap()
-            reset()
-            checkForWin()
+            // checkForWin()
         }
     } else {
         console.log('over the grid alr')
         app.allCoordinates = []
     }
-
-
+    // updateSymbols()
+    // paintMap()
+    // checkForWin()
     app.original = false//!!!!!!!!!!!!!!!!!!double check
-
     // render()
-    
-
+    // reset()
 }
+
+
 
 // const render = () => {
 //     updateSymbols(playerPosition)
@@ -255,14 +302,3 @@ const updateSymbols = () => {
 }
 
 
-//next step: check for win --> check if no $, only *. incorporate in paintmap
-const checkForWin = () => {//check if there are any boxes not on goal ($)
-    let combinedMapArray = []
-    for (let i = 0; i <=app.currentMap.length; i++) {
-        combinedMapArray = combinedMapArray.concat(app.currentMap[i])
-    }
-    if (combinedMapArray.every(x => x !== '$')) {
-        alert(`Level ${app.level} complete!`)
-        app.level++//go to next level
-    }
-}
