@@ -1,10 +1,10 @@
 import $, { each, event, post } from 'jquery'
 
 const app = {
-    level: 4,
+    level: 0,
     original: true,
     allCoordinates: [],
-    page: 'gamePage',
+    // page: 'gamePage',
     currentMap: [],
     maps: [//put in separate js file and import/export eg export function setupCounter(element) and  imprt {setupCounter} from 'file.js'
         `####
@@ -81,12 +81,12 @@ const checkForWin = () => {//check if there are any boxes not on goal ($)
                 app.currentMap = originalMapProcessing()
                 paintMap()//dont need checkforwin n reset here
             } else {
-                console.log('youre too genius! no more levels available </3')
                 $winBannerBG.css('background-color', 'yellow')
                 $winBannerMain.text(`You're too much of a genius!`)
                 $winBannerSub.text('No more levels available :(')
                 $nextLevel.text('END')
                 $nextLevel.on('click', () => {
+                    $winBanner.empty()
                     $('.mainPage').show()
                     $('.gamePage').hide()
                 })
@@ -176,15 +176,60 @@ const resetAndQuit = () => {
 }
 
 
-// paint map at the start of every level
-$('.mainPage').show()
-$('.gamePage').hide()
-//use states to do hide show which page
+
+$('.hidden').hide()
+$('.shown').show()
+
+
 $('.newGameButton').on('click', () => {//hide this and go to game page
-    console.log('quittin')
-    $('.gamePage').show()
-    $('.mainPage').hide()
+    $('.mainPage').removeClass('shown')
+    $('.newGamePage').addClass('shown')
+    $('.hidden').hide()
+    $('.shown').show()
 })
+$('.loadGameButton').on('click', () => {
+    $('.mainPage').removeClass('shown')
+    $('.loadGamePage').addClass('shown')
+    $('.hidden').hide()
+    $('.shown').show()
+})
+$('.leaderboardButton').on('click', () => {
+    $('.mainPage').removeClass('shown')
+    $('.leaderboardPage').addClass('shown')
+    $('.hidden').hide()
+    $('.shown').show()
+})
+$('.backButton').on('click', () => {
+    $('.newGamePage').removeClass('shown')
+    $('.loadGamePage').removeClass('shown')
+    $('.leaderboardPage').removeClass('shown')
+    $('.mainPage').addClass('shown')
+    $('.hidden').hide()
+    $('.shown').show()
+})
+$('.startButton').on('click', () => {
+    $('.newGamePage').removeClass('shown')
+    $('.loadGamePage').removeClass('shown')
+    $('.bufferingPage').addClass('shown')
+    $('.hidden').hide()
+    $('.shown').show()
+    load()
+})
+
+const load = () => {
+    const id = setInterval(frame, 10)
+}
+
+const frame = () => {
+    let width = 20
+    if (width >= 100) {
+        clearInterval(id)
+    } else {
+        width++
+        $('.loadingBar').text(`${width}%`)
+        $('.loadingBar').css('width', `${width*1}%`)
+    }
+}
 
 
 const main = () => {
@@ -275,7 +320,7 @@ const main = () => {
 }
 
 main()
-
+console.log(localStorage.length)
 
 //check restriction and change symbols
 const updateSymbols = () => {

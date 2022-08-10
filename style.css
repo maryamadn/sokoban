@@ -51,11 +51,23 @@ body {
 } */
 
 button {
-    height: 20px;
-    width: 70px;
+    height: 30px;
+    width: 150px;
     text-align: center;
     font-weight: 600;
     border-radius: 20px;
+    background-color: white;
+}
+
+input {
+    border-radius: 20px;
+    height: 30px;
+    width: 150px;
+}
+
+.loadingBar {
+    border: solid 1px blue;
+    width: 100px;
 }
 
 footer {

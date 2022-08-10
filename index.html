@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <div class="mainPage">
+  <div class="mainPage hidden shown">
     <h1>SOKOBAN</h1>
     <p>Welcome to Sokoban!</p>
     <br>
@@ -24,9 +24,40 @@
     <p>Have fun!</p>
     <button class="newGameButton">NEW GAME</button>
     <button class="loadGameButton">LOAD GAME</button>
-    <button class="leaderboard">LEADERBOARD</button>
+    <button class="leaderboardButton">LEADERBOARD</button>
   </div>
-  <div class="gamePage">
+  <div class="leaderboardPage hidden">
+    <h1>LEADERBOARD</h1>
+    <p>USERNAME</p>
+    <p>HIGHEST LEVEL</p>
+    <p>no one has played before :(</p>
+    <button class="backButton">BACK</button>
+  </div>
+  <div class="newGamePage hidden">
+    <h1>SOKOBAN</h1>
+    <p>Creating New Game...</p>
+    <input class="username">
+    <input class="password">
+    <button class="backButton">BACK</button>
+    <button class="startButton">START</button>
+  </div>
+  <div class="loadGamePage hidden">
+    <h1>SOKOBAN</h1>
+    <p>Loading Game...</p>
+    <input class="username">
+    <input class="password">
+    <button class="backButton">BACK</button>
+    <button class="startButton">START</button>
+  </div>
+  <div class="bufferingPage hidden">
+    <h1>SOKOBAN</h1>
+    <p>LOADING</p>
+    <div>
+      <div class="loadingBar">0%</div>
+    </div>
+    <p>LESGOOOOO!</p>
+  </div>
+  <div class="gamePage hidden">
     <header>
       <p>sokoban</p>
       <p class="levelHeader"></p>
