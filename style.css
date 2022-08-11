@@ -1,5 +1,7 @@
 body {
     font-family: 'Inter', sans-serif;
+    color: white;
+    background-color: #161529;
     margin: 0;
     padding: 0;
 }
@@ -10,45 +12,64 @@ body {
 
 .row {
     margin: 0 auto;
-    background-color: aqua;
     display: flex;
     flex-direction: row;
-
 }
 
 #point {
-    height: 20px;
-    width: 20px;
+    height: 50px;
+    width: 50px;
     border: solid 1px black;
 }
 
-/* .wall {
-    background-color: rgb(177, 177, 248);
+h1 {
+    font-weight: 600;
+    text-align: center;
 }
 
+p {
+    text-align: center;
+    font-weight: 200;
+}
+
+.wall {
+    background-color: #5C1128;
+}
+
+
 .player {
-    background-color: beige;
+    background-image: url(https://i.imgur.com/CFthw7l.gif);
+    background-size: cover;
+    background-color: #C3BAC3;
 }
 
 .box {
-    background-color: brown;
+    background-image: url(https://i.imgur.com/hnJ72Ry.gif);
+    background-size: cover;
+    background-color: #C3BAC3;
 }
 
 .goal {
-    background-color: green;
+    background-image: url(https://i.imgur.com/CkAEbxy.png);
+    background-size: cover;
+    background-color: #C3BAC3;
 }
 
 .box_on_goal {
-    background-color: yellow;
+    background-image: url(https://i.imgur.com/5Lj1JDG.png);
+    background-size: cover;
+    background-color: #C3BAC3;
 }
 
 .player_on_goal {
-    background-color: violet;
+    background-color: #C3BAC3;
+    background-image: url(https://i.imgur.com/TRzqhe7.png);
+    background-size: cover;
 }
 
 .floor {
-    background-color: white;
-} */
+    background-color: #C3BAC3;
+}
 
 button {
     height: 30px;
@@ -56,35 +77,284 @@ button {
     text-align: center;
     font-weight: 600;
     border-radius: 20px;
-    background-color: white;
+    background-color: #C3BAC3;
 }
 
+button:hover {
+    background-color: #5C1128;
+    color: #C3BAC3;
+}
+
+.mainPageButtonContainer {
+    margin: 50px auto;
+    width: 40vw;
+    display: grid;
+    grid-template-areas:
+    '. .'
+    'leaderboard leaderboard'
+    ;
+    row-gap: 20px;
+    justify-items: center;
+}
+
+.leaderboardButton {
+    grid-area: leaderboard;
+}
+
+/* ------------------------------------------------------------- */
+/* leaderboardPage */
+.leaderboardPage {
+    margin: 0 auto;
+    width: 40vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    'title title'
+    'username .'
+    'list list'
+    'list list'
+    'list list'
+    'back back'
+    ;
+    text-align: center;
+    justify-items: center;
+    align-items: center;
+    row-gap: 30px;
+    column-gap: 20px;
+}
+
+.leaderboardPage h1 {
+    grid-area: title;
+}
+
+.leaderboardPage p {
+    font-weight: 400;
+}
+
+.leaderboardPage div {
+    font-weight: 200;
+}
+
+.username {
+    grid-area: username;
+}
+
+.leaderboardPage button {
+    grid-area: back;
+
+}
+
+
+
+/* ------------------------------------------------------------- */
+/* createGamePage */
+.newGamePage {
+    margin: 0 auto;
+    width: 40vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    'title title'
+    'desc desc'
+    'error error'
+    'form form'
+    'form form'
+    'button button'
+    ;
+    justify-items: center;
+    row-gap: 10px;
+}
+
+.newGamePage h1 {
+    grid-area: title;
+}
+
+.newGamePage p {
+    grid-area: desc;
+}
+
+.newGamePage .error {
+     grid-area: error;
+}
+
+.newGamePage button {
+    margin: 20px 0px;
+}
+
+.createForm {
+    grid-area: form;
+}
+
+.createUsername {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.createPassword {
+    display: block;
+}
+
+
+/* ------------------------------------------------------------- */
+/* loadGamePage */
+.loadGamePage {
+    margin: 0 auto;
+    width: 40vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    'title title'
+    'desc desc'
+    'error error'
+    'form form'
+    'form form'
+    'button button'
+    ;
+    justify-items: center;
+    row-gap: 10px;
+}
+
+.loadGamePage h1 {
+    grid-area: title;
+}
+
+.loadGamePage p {
+    grid-area: desc;
+}
+
+.loadGamePage .error {
+    grid-area: error;
+}
+
+.loadGamePage button {
+    margin: 20px 0px;
+}
+
+.loadForm {
+    grid-area: form;
+}
+
+.loadUsername {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.loadPassword {
+    display: block;
+}
+
+/* ------------------------------------------------------------- */
+/* inputs */
 input {
+    text-align: center;
+    grid-area: input;
     border-radius: 20px;
-    height: 30px;
-    width: 150px;
+    height: 25px;
+    width: 140px;
+    border-style: none;
+    background-color: #161529;
+    border: solid 2px #C3BAC3;
+    color: #C3BAC3;
+}
+
+input:hover {
+    background-color: #5c1128;
+}
+
+input::placeholder {
+    text-align: center;
+    color:#c3bac3;
+    opacity: 0.3;
+}
+
+input:focus {
+    outline: none;
+    color: #C3BAC3;
+    background-color: #5c1128;
+}
+
+
+/* ------------------------------------------------------------- */
+/* loading bar */
+
+.bufferingPage {
+    display: grid;
+}
+
+.loadingTitle {
+    height: 100px;
 }
 
 .loadingBar {
-    border: solid 1px black;
+    margin: 20px auto;
+    border: solid 2px #C3BAC3;
     width: 400px;
     height: 22px;
-    background-color: #c3bac3;
     border-radius: 20px;
+}
+
+.percentage {
+    font-weight: 600;
 }
 
 .loadingBarIndicator {
     height: 100%;
-    color: black;
+    color: #C3BAC3;
     text-align: right;
-    line-height: 22px;
+    height: 22px;
     width: 0;
     background-color: #5c1128;
     border-radius: 20px;
 }
 
-footer {
-    display: inline;
+/* ------------------------------------------------------------- */
+/* gamePage*/
+
+.gamePage {
+    /* margin: 0 auto; */
+    display: grid;
+    grid-template-areas:
+    'title'
+    'level'
+    'grid'
+    'button'
+    ;
+    justify-content: center;
+}
+
+.gamePage h1 {
+    grid-area: title;
+}
+
+.gamePage p {
+    grid-area: level;
+}
+
+.gameContainer {
+    grid-area: grid;
+}
+
+.gamePage footer {
+    margin-top: 20px;
+    grid-area: button;
+    display: grid;
+    grid-template-areas:
+    'reset quit'
+    ;
+    justify-content: center;
+    column-gap: 80px;
+}
+
+.resetButton {
+    grid-area: reset;
+}
+
+.quitButton {
+    grid-area: quit;
+}
+
+.winBanner {
+    margin: auto;
 }
 
 .winBannerMain {
@@ -105,21 +375,91 @@ footer {
     top: 0;
     height: 100vh;
     width: 100vw;
-    background-color: black;
-    opacity: 0.5;
-    /* insteadof black, add translucent image */
+    opacity: 0.8;
     text-align: center;
+    background-color: #161529;
+    /* animation: blinkingBackground 2s infinite; */
 }
 
-/* .winBannerDisappear {
-    position: absolute;
-    top: 0;
-    height: 100vh;
-    width: 100vw;
-} */
+.blinkingBG {
+    animation: blinkingBackground 2s infinite;
+}
+
+@keyframes blinkingBackground {
+    0%      { background-color: #161529;}
+	25%		{ background-color: #014671;}
+	50%		{ background-color: #5484A6;}
+	75%		{ background-color: #5C1128;}
+	100%	{ background-color: #C3BAC3;}
+}
+
+
 
 .nextLevel {
     position: relative;
     display: block;
     margin: 0 auto;
+}
+
+
+/* ------------------------------------------------------------- */
+/* responsiveness*/
+@media screen and (max-width: 650px) {
+    .mainPageButtonContainer {
+        grid-template-areas:
+        'new'
+        'load'
+        'leaderboard'
+        ;
+    }
+    
+    .newGamePage {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+        'title'
+        'desc'
+        'error'
+        'form'
+        'form'
+        'start'
+        'back'
+        ;
+    }
+
+    .newGamePage button {
+        margin: 0px;
+    }
+
+    .newGamePage .backButton {
+        grid-area: back;
+    }
+
+    .newGamePage .startButton {
+        margin-top: 20px;
+    }
+
+    .loadGamePage {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+        'title'
+        'desc'
+        'error'
+        'form'
+        'form'
+        'start'
+        'back'
+        ;
+    }
+
+    .loadGamePage button {
+        margin: 0px;
+    }
+
+    .loadGamePage .backButton {
+        grid-area: back;
+    }
+
+    .loadGamePage .startButton {
+        margin-top: 20px;
+    }
 }

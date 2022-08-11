@@ -19,12 +19,15 @@
     <p>Welcome to Sokoban!</p>
     <br>
     <p>Use your arrow keys to move around.</p>
-    <p>Push each box into each marked storage location to win each level.</p>
+    <p>Push each coin into an empty chest to win each level.</p>
+    <p>Coins can be pushed out of an empty chest to move things around.</p>
     <br>
     <p>Have fun!</p>
-    <button class="newGameButton">NEW GAME</button>
-    <button class="loadGameButton">LOAD GAME</button>
-    <button class="leaderboardButton">LEADERBOARD</button>
+    <div class="mainPageButtonContainer">
+      <button class="newGameButton">NEW GAME</button>
+      <button class="loadGameButton">LOAD GAME</button>
+      <button class="leaderboardButton">LEADERBOARD</button>
+    </div>
   </div>
   <div class="leaderboardPage hidden">
     <h1>LEADERBOARD</h1>
@@ -35,8 +38,10 @@
   <div class="newGamePage hidden">
     <h1>SOKOBAN</h1>
     <p>Creating New Game...</p>
-    <input class="createUsername">
-    <input class="createPassword">
+    <form class="createForm">
+      <input class="createUsername" placeholder="username">
+      <input class="createPassword" placeholder="password">
+    </form>
     <p class="error"></p>
     <button class="backButton">BACK</button>
     <button class="startButton">START</button>
@@ -44,25 +49,26 @@
   <div class="loadGamePage hidden">
     <h1>SOKOBAN</h1>
     <p>Loading Game...</p>
-    <input class="loadUsername">
-    <input class="loadPassword">
+    <form class="loadForm">
+      <input class="loadUsername" placeholder="username">
+      <input class="loadPassword" placeholder="password">
+    </form>
     <p class="error"></p>
     <button class="backButton">BACK</button>
     <button class="startButton">START</button>
   </div>
   <div class="bufferingPage hidden">
-    <h1>SOKOBAN</h1>
+    <h1 class="loadingTitle">SOKOBAN</h1>
+    <p class="percentage"></p>
     <p>LOADING</p>
     <div class="loadingBar">
       <div class="loadingBarIndicator"></div>
     </div>
-    <p>LESGOOOOO!</p>
+    <p>mmmhmmm..mhmmhammh..mmmh.</p>
   </div>
   <div class="gamePage hidden">
-    <header>
-      <p>sokoban</p>
-      <p class="levelHeader"></p>
-    </header>
+    <h1>SOKOBAN</h1>
+    <p class="levelHeader"></p>
     <section class="gameContainer"></section>
     <footer></footer>
     <div class="winBanner"></div>
