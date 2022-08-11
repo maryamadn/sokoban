@@ -1,10 +1,11 @@
 import $, { each, event, post } from 'jquery'
 
 const app = {
+    currentUsername: '',
+    userInfo: {},
     level: 0,
     original: true,
     allCoordinates: [],
-    // page: 'gamePage',
     currentMap: [],
     maps: [//put in separate js file and import/export eg export function setupCounter(element) and  imprt {setupCounter} from 'file.js'
         `####
@@ -76,7 +77,10 @@ const checkForWin = () => {//check if there are any boxes not on goal ($)
         $nextLevel.on('click', () => {
             app.original = true
             app.level++
-            if (app.level < app.maps.length) {
+            app.userInfo.level = app.level
+            localStorage.setItem(app.currentUsername, JSON.stringify(app.userInfo))
+
+            if (app.level < app.maps.length) {///////////////////////// hererererer
                 $winBanner.empty()
                 app.currentMap = originalMapProcessing()
                 paintMap()//dont need checkforwin n reset here
@@ -187,18 +191,113 @@ $('.newGameButton').on('click', () => {//hide this and go to game page
     $('.hidden').hide()
     $('.shown').show()
 })
+
 $('.loadGameButton').on('click', () => {
     $('.mainPage').removeClass('shown')
     $('.loadGamePage').addClass('shown')
     $('.hidden').hide()
     $('.shown').show()
+
+    
 })
+
 $('.leaderboardButton').on('click', () => {
     $('.mainPage').removeClass('shown')
     $('.leaderboardPage').addClass('shown')
     $('.hidden').hide()
     $('.shown').show()
 })
+
+//create a new game
+$('.startButton').on('click', () => {
+    const $error = $('.error')
+    $error.text('')
+    
+    
+    if ($('.newGamePage').hasClass('shown')) {
+        const $username = $('.createUsername').val()
+        const $password = $('.createPassword').val()
+
+        if (localStorage.getItem($username) === null) {
+            app.currentUsername = $username
+            app.userInfo = {
+                password: $password,
+                level: 0
+            }
+            app.level = 0//??????????????????
+            localStorage.setItem($username, JSON.stringify(app.userInfo))
+            
+            $('.newGamePage').removeClass('shown')
+            $('.loadGamePage').removeClass('shown')
+            $('.bufferingPage').addClass('shown')
+            $('.hidden').hide()
+            $('.shown').show()
+    
+            const load = (percent, $element) => {
+            const progressBarWidth = percent*$element.width() / 100
+            $element.find('div').animate({ width: progressBarWidth }, 4000)
+            }
+            load(100, $('.loadingBar'))
+            const loaded = () => {
+                $('.bufferingPage').removeClass('shown')
+                $('.gamePage').addClass('shown')
+                $('.hidden').hide()
+                $('.shown').show()
+
+                app.currentMap = originalMapProcessing()
+                paintMap()//dont need checkforwin n reset here
+            }
+            setTimeout(loaded, 4000)
+
+        } else {
+            $error.text('Username taken!')
+        }
+    } else if ($('.loadGamePage').hasClass('shown')) {
+        const $username = $('.loadUsername').val()
+        const $password = $('.loadPassword').val()
+        if (localStorage.getItem($username) === null) {
+            $error.text('Username not found, please create a new game!')
+        } else {
+            app.userInfo = JSON.parse(localStorage.getItem($username))
+
+            if (app.userInfo.password !== $password) {
+                $error.text('Incorrect password!')
+            } else {
+                app.currentUsername = $username
+                app.level = app.userInfo.level
+    
+                $('.newGamePage').removeClass('shown')
+                $('.loadGamePage').removeClass('shown')
+                $('.bufferingPage').addClass('shown')
+                $('.hidden').hide()
+                $('.shown').show()
+        
+                const load = (percent, $element) => {
+                const progressBarWidth = percent*$element.width() / 100
+                $element.find('div').animate({ width: progressBarWidth }, 4000)
+                }
+                load(100, $('.loadingBar'))
+                const loaded = () => {
+                    $('.bufferingPage').removeClass('shown')
+                    $('.gamePage').addClass('shown')
+                    $('.hidden').hide()
+                    $('.shown').show()
+                    app.currentMap = originalMapProcessing()
+                    paintMap()//dont need checkforwin n reset here
+                }
+                setTimeout(loaded, 4000)
+
+            }
+        }
+    }
+})
+
+
+
+
+
+
+
 $('.backButton').on('click', () => {
     $('.newGamePage').removeClass('shown')
     $('.loadGamePage').removeClass('shown')
@@ -207,35 +306,13 @@ $('.backButton').on('click', () => {
     $('.hidden').hide()
     $('.shown').show()
 })
-$('.startButton').on('click', () => {
-    $('.newGamePage').removeClass('shown')
-    $('.loadGamePage').removeClass('shown')
-    $('.bufferingPage').addClass('shown')
-    $('.hidden').hide()
-    $('.shown').show()
-    const load = (percent, $element) => {
-    const progressBarWidth = percent*$element.width() / 100
-    $element.find('div').animate({ width: progressBarWidth }, 4000)
-    }
-    load(100, $('.loadingBar'))
-    const loaded = () => {
-        $('.bufferingPage').removeClass('shown')
-        $('.gamePage').addClass('shown')
-        $('.hidden').hide()
-        $('.shown').show()
-    }
-    setTimeout(loaded, 4000)
-})
+
+
 
 
 
 
 const main = () => {
-    if (app.original) {
-        app.currentMap = originalMapProcessing()
-        paintMap()//dont need checkforwin n reset here
-    }
-
     window.onkeydown = (event) => { //finds out which arrow key is pressed and updates playerPosition, precedingPoint, and followingPoint
         if (app.original) {
             app.currentMap = originalMapProcessing()
@@ -254,7 +331,6 @@ const main = () => {
             followingPoint[0] = playerPosition[0] - 1
             followingPoint[1] = playerPosition[1]
     
-            console.log('up')
         } else if (event.key === 'ArrowDown') {
             precedingPoint[0] = playerPosition[0]
             precedingPoint[1] = playerPosition[1]
@@ -264,7 +340,6 @@ const main = () => {
             followingPoint[0] = playerPosition[0] + 1
             followingPoint[1] = playerPosition[1]
     
-            console.log('down')
         } else if (event.key === 'ArrowLeft') {
             precedingPoint[0] = playerPosition[0]
             precedingPoint[1] = playerPosition[1]
@@ -273,8 +348,7 @@ const main = () => {
     
             followingPoint[0] = playerPosition[0]
             followingPoint[1] = playerPosition[1] - 1
-    
-            console.log('left')
+
         } else if (event.key === 'ArrowRight') {
             precedingPoint[0] = playerPosition[0]
             precedingPoint[1] = playerPosition[1]
@@ -283,8 +357,6 @@ const main = () => {
     
             followingPoint[0] = playerPosition[0]
             followingPoint[1] = playerPosition[1] + 1
-    
-            console.log('right')
         }
     
         coordinates[0] = precedingPoint
@@ -299,26 +371,25 @@ const main = () => {
         let restrictions1 = ''
         if (restrictedRow >= 0 && restrictedColumn >= 0 && restrictedRow1 >= 0 && restrictedColumn1 >= 0 && restrictedRow1 < app.currentMap.length) {//cannot have - numbers and also over the grid numbers
             restrictions = app.currentMap[restrictedRow][restrictedColumn] //check for restrictions of player movement
-            console.log(restrictedRow1, restrictedColumn1)
             restrictions1 = app.currentMap[restrictedRow1][restrictedColumn1] //check for restrictions based on following point
             if (restrictions === '#' || ((restrictions === '$' || restrictions === '*') && (restrictions1 === '#' || restrictions1 === '$' || restrictions1 === '*'))) {//check restriction: whether the player has a wall infront of them or not
                 console.log('in grid but move restricted')
             } else {
                 app.allCoordinates = coordinates
-                console.log('dapat move')
                 updateSymbols()
                 paintMap()
-                app.original = false//!!!!!!!!!!!!!!!!!!double check
+                app.original = false
             }
         } else {
-            console.log('over the grid alr')
             app.allCoordinates = []
         }
     }
 }
 
+
 main()
-console.log(localStorage.length)
+// localStorage.clear()
+console.log(localStorage)
 
 //check restriction and change symbols
 const updateSymbols = () => {
@@ -330,7 +401,6 @@ const updateSymbols = () => {
         const prevPoint = app.currentMap[prevRow][prevColumn]
         if (row >= 0 && column >= 0) {
             let point = app.currentMap[row][column]
-            console.log(point)
             if (i === 0) {//preceding points can only change to floor or goal
                 if (point === '@') { //player
                     app.currentMap[row][column] = ' ' //change to floor
