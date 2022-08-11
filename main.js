@@ -76,7 +76,9 @@ const checkForWin = () => {//check if there are any boxes not on goal ($)
         const $nextLevel = $('<button>').addClass('nextLevel').text('NEXT LEVEL')
         $nextLevel.on('click', () => {
             app.original = true
-            app.level++
+            if (app.level < app.maps.length) {
+                app.level++
+            }
             app.userInfo.level = app.level
             localStorage.setItem(app.currentUsername, JSON.stringify(app.userInfo))
 
@@ -91,8 +93,10 @@ const checkForWin = () => {//check if there are any boxes not on goal ($)
                 $nextLevel.text('END')
                 $nextLevel.on('click', () => {
                     $winBanner.empty()
-                    $('.mainPage').show()
-                    $('.gamePage').hide()
+                    $('.gamePage').removeClass('shown')
+                    $('.mainPage').addClass('shown')
+                    $('.hidden').hide()
+                    $('.shown').show()
                 })
             }
         })
@@ -197,8 +201,6 @@ $('.loadGameButton').on('click', () => {
     $('.loadGamePage').addClass('shown')
     $('.hidden').hide()
     $('.shown').show()
-
-    
 })
 
 $('.leaderboardButton').on('click', () => {
@@ -206,6 +208,35 @@ $('.leaderboardButton').on('click', () => {
     $('.leaderboardPage').addClass('shown')
     $('.hidden').hide()
     $('.shown').show()
+    $('.leaderboardList').empty()
+    if (localStorage.length !== 0) {
+        const leaderboardObject = {}
+        for (let i=0; i<localStorage.length; i++) {
+            const leaderboardName = localStorage.key(i)
+            const userInfo = JSON.parse(localStorage.getItem(leaderboardName))
+            leaderboardObject[leaderboardName] = userInfo.level
+        }
+        // console.log(leaderboardObject)
+        const leaderboardArray = Object.entries(leaderboardObject)
+        const sortedLeaderboard = leaderboardArray.sort((a,b) => b[1] - a[1])
+        console.log(sortedLeaderboard)
+        let limit = 0
+        if (sortedLeaderboard.length >= 3) {
+            limit = 2
+        } else if (sortedLeaderboard.length === 2) {
+            limit = 1
+        } else if (sortedLeaderboard.length === 1) {
+            limit = 0
+        }
+        for (let i = limit; i>=0; i--) {
+            const $name = $('<div>').addClass('leaderboardList').text(sortedLeaderboard[i][0])
+            const $level = $('<div>').addClass('leaderboardList').text(sortedLeaderboard[i][1])
+            $('.highestLevel').after($name)
+            $name.after($level)
+        }
+    } else {
+        $('.highestLevel').after($('<p>').text('No one has played yet.'))
+    }
 })
 
 //create a new game
@@ -224,7 +255,7 @@ $('.startButton').on('click', () => {
                 password: $password,
                 level: 0
             }
-            app.level = 0//??????????????????
+            app.level = 0
             localStorage.setItem($username, JSON.stringify(app.userInfo))
             
             $('.newGamePage').removeClass('shown')
@@ -262,6 +293,8 @@ $('.startButton').on('click', () => {
 
             if (app.userInfo.password !== $password) {
                 $error.text('Incorrect password!')
+            } else if (app.userInfo.level >= app.maps.length) {
+                $error.text('You have completed all levels!')
             } else {
                 app.currentUsername = $username
                 app.level = app.userInfo.level
@@ -286,7 +319,6 @@ $('.startButton').on('click', () => {
                     paintMap()//dont need checkforwin n reset here
                 }
                 setTimeout(loaded, 4000)
-
             }
         }
     }
