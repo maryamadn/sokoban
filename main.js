@@ -224,7 +224,7 @@ $('.startButton').on('click', () => {
         $('.hidden').hide()
         $('.shown').show()
     }
-    setInterval(loaded, 4000)
+    setTimeout(loaded, 4000)
 })
 
 
