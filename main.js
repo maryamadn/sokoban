@@ -136,10 +136,10 @@ const paintMap = () => {
         $gameContainer.append($map)
         $map.append($section)
     }
-    const $reset = $('<button>').addClass('reset').text('RESET')
+    const $reset = $('<button>').addClass('resetButton').text('RESET')
     $('footer').append($reset)
     
-    const $quit = $('<button>').addClass('quit').text('QUIT')
+    const $quit = $('<button>').addClass('quitButton').text('QUIT')
     $('footer').append($quit)
 
     resetAndQuit()
@@ -162,16 +162,16 @@ const playerOriginalPosition = () => {
 
 //reset and quit button
 const resetAndQuit = () => {
-    $('.reset').on('click', () => {
+    $('.resetButton').on('click', () => {
         app.original = true
         app.currentMap = originalMapProcessing()
         paintMap()
-        console.log('resetinh')
     })
-    $('.quit').on('click', () => {//hide this and go to username page
-        console.log('quittin')
-        $('.mainPage').show()
-        $('.gamePage').hide()
+    $('.quitButton').on('click', () => {//hide this and go to username page
+        $('.gamePage').removeClass('shown')
+        $('.mainPage').addClass('shown')
+        $('.hidden').hide()
+        $('.shown').show()
     })
 }
 
