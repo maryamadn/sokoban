@@ -213,23 +213,21 @@ $('.startButton').on('click', () => {
     $('.bufferingPage').addClass('shown')
     $('.hidden').hide()
     $('.shown').show()
-    load()
+    const load = (percent, $element) => {
+    const progressBarWidth = percent*$element.width() / 100
+    $element.find('div').animate({ width: progressBarWidth }, 4000)
+    }
+    load(100, $('.loadingBar'))
+    const loaded = () => {
+        $('.bufferingPage').removeClass('shown')
+        $('.gamePage').addClass('shown')
+        $('.hidden').hide()
+        $('.shown').show()
+    }
+    setInterval(loaded, 4000)
 })
 
-const load = () => {
-    const id = setInterval(frame, 10)
-}
 
-const frame = () => {
-    let width = 20
-    if (width >= 100) {
-        clearInterval(id)
-    } else {
-        width++
-        $('.loadingBar').text(`${width}%`)
-        $('.loadingBar').css('width', `${width*1}%`)
-    }
-}
 
 
 const main = () => {

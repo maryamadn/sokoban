@@ -66,8 +66,21 @@ input {
 }
 
 .loadingBar {
-    border: solid 1px blue;
-    width: 100px;
+    border: solid 1px black;
+    width: 400px;
+    height: 22px;
+    background-color: #c3bac3;
+    border-radius: 20px;
+}
+
+.loadingBarIndicator {
+    height: 100%;
+    color: black;
+    text-align: right;
+    line-height: 22px;
+    width: 0;
+    background-color: #5c1128;
+    border-radius: 20px;
 }
 
 footer {
