@@ -46,94 +46,94 @@ const app = {
 #      #
 ########`,
 
-        `###### #####
-#    ###   #
-# $$     #@#
-# $ #...   #
-#   ########
-#####`,
+//         `###### #####
+// #    ###   #
+// # $$     #@#
+// # $ #...   #
+// #   ########
+// #####`,
 
-        `#######
-#     #
-# .$. #
-# $.$ #
-# .$. #
-# $.$ #
-#  @  #
-#######`,
+//         `#######
+// #     #
+// # .$. #
+// # $.$ #
+// # .$. #
+// # $.$ #
+// #  @  #
+// #######`,
 
-        `  ######
-# ..@#
-# $$ #
-## ###
- # #
- # #
-#### #
-#    ##
-# #   #
-#   # #
-###   #
-#####`,
+//         `  ######
+// # ..@#
+// # $$ #
+// ## ###
+//  # #
+//  # #
+// #### #
+// #    ##
+// # #   #
+// #   # #
+// ###   #
+// #####`,
 
-        `#####
-#.  ##
-#@$$ #
-##   #
- ##  #
-  ##.#
-   ###`,
+//         `#####
+// #.  ##
+// #@$$ #
+// ##   #
+//  ##  #
+//   ##.#
+//    ###`,
 
-        `      #####
-#.  #
-#.# #
-#######.# #
-# @ $ $ $ #
-# # # # ###
-#       #
-#########`,
+//         `      #####
+// #.  #
+// #.# #
+// #######.# #
+// # @ $ $ $ #
+// # # # # ###
+// #       #
+// #########`,
 
-        `  ######
-#    #
-# ##@##
-### # $ #
-# ..# $ #
-#       #
-#  ######
-####`,
+//         `  ######
+// #    #
+// # ##@##
+// ### # $ #
+// # ..# $ #
+// #       #
+// #  ######
+// ####`,
 
-        `#####
-#   ##
-# $  #
-## $ ####
- ###@.  #
-  #  .# #
-  #     #
-  #######`,
+//         `#####
+// #   ##
+// # $  #
+// ## $ ####
+//  ###@.  #
+//   #  .# #
+//   #     #
+//   #######`,
 
-        `####
-#. ##
-#.@ #
-#. $#
-##$ ###
- # $  #
- #    #
- #  ###
- ####`,
+//         `####
+// #. ##
+// #.@ #
+// #. $#
+// ##$ ###
+//  # $  #
+//  #    #
+//  #  ###
+//  ####`,
 
-        `#######
-#     #
-# # # #
-#. $*@#
-#   ###
-#####`,
+//         `#######
+// #     #
+// # # # #
+// #. $*@#
+// #   ###
+// #####`,
 
-        `     ###
-######@##
-#    .* #
-#   #   #
-#####$# #
-    #   #
-    #####`//microban lvl 15
+//         `     ###
+// ######@##
+// #    .* #
+// #   #   #
+// #####$# #
+//     #   #
+//     #####`//microban lvl 15
 ]
 }
 
@@ -243,20 +243,6 @@ const paintMap = () => {
     checkForWin()
 }
 
-
-//find player's original point
-const playerOriginalPosition = () => {
-    for (const row in app.currentMap) {
-        const position = []
-        for (const column in app.currentMap[row]) {//why is this no different froma just app.currentMap
-            if (app.currentMap[row][column] === '@' || app.currentMap[row][column] === '+') {//check if the element is player or player on goal
-                position.push(parseInt(row), parseInt(column))
-                return position
-            }
-        }
-    }
-}
-
 //reset and quit button
 const resetAndQuit = () => {
     $('.resetButton').on('click', () => {
@@ -271,6 +257,20 @@ const resetAndQuit = () => {
         $('.shown').show()
     })
 }
+
+//find player's original point
+const playerOriginalPosition = () => {
+    for (const row in app.currentMap) {
+        const position = []
+        for (const column in app.currentMap[row]) {//why is this no different froma just app.currentMap
+            if (app.currentMap[row][column] === '@' || app.currentMap[row][column] === '+') {//check if the element is player or player on goal
+                position.push(parseInt(row), parseInt(column))
+                return position
+            }
+        }
+    }
+}
+
 
 
 
@@ -440,11 +440,6 @@ $('.startButton').on('click', () => {
 })
 
 
-
-
-
-
-
 $('.backButton').on('click', () => {
     $('.newGamePage').removeClass('shown')
     $('.loadGamePage').removeClass('shown')
@@ -455,9 +450,6 @@ $('.backButton').on('click', () => {
     $('form').trigger('reset')
     $('.error').text('')
 })
-
-
-
 
 
 
