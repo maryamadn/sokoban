@@ -298,6 +298,8 @@ $('.leaderboardButton').on('click', () => {
     $('.hidden').hide()
     $('.shown').show()
     $('.leaderboardList').empty()
+    $('.emptyLeaderboard').empty()
+
     if (localStorage.length !== 0) {
         const leaderboardObject = {}
         for (let i=0; i<localStorage.length; i++) {
@@ -322,7 +324,7 @@ $('.leaderboardButton').on('click', () => {
             $name.after($level)
         }
     } else {
-        $('.highestLevel').after($('<p>').text('No one has played yet.'))
+        $('.highestLevel').after($('<p>').text('No one has played yet.').addClass('emptyLeaderboard'))
     }
 })
 
