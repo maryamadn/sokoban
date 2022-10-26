@@ -1,4 +1,4 @@
-import $, { each, event, post } from 'jquery'
+import $ from 'jquery'
 
 const app = {
     currentUsername: '',
@@ -171,7 +171,7 @@ const checkForWin = () => {//check if there are any boxes not on goal ($)
             app.userInfo.level = app.level
             localStorage.setItem(app.currentUsername, JSON.stringify(app.userInfo))
 
-            if (app.level < app.maps.length) {///////////////////////// hererererer
+            if (app.level < app.maps.length) {
                 $winBanner.empty()
                 app.currentMap = originalMapProcessing()
                 paintMap()//dont need checkforwin n reset here

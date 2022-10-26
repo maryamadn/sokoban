@@ -2,24 +2,8 @@ body {
     font-family: 'Inter', sans-serif;
     color: white;
     background-color: #161529;
-    margin: 0;
+    margin: 30px;
     padding: 0;
-}
-
-.map {
-    display: inline-block;
-}
-
-.row {
-    margin: 0 auto;
-    display: flex;
-    flex-direction: row;
-}
-
-#point {
-    height: 50px;
-    width: 50px;
-    border: solid 1px black;
 }
 
 h1 {
@@ -30,45 +14,6 @@ h1 {
 p {
     text-align: center;
     font-weight: 200;
-}
-
-.wall {
-    background-color: #5C1128;
-}
-
-
-.player {
-    background-image: url(https://i.imgur.com/CFthw7l.gif);
-    background-size: cover;
-    background-color: #C3BAC3;
-}
-
-.box {
-    background-image: url(https://i.imgur.com/hnJ72Ry.gif);
-    background-size: cover;
-    background-color: #C3BAC3;
-}
-
-.goal {
-    background-image: url(https://i.imgur.com/CkAEbxy.png);
-    background-size: cover;
-    background-color: #C3BAC3;
-}
-
-.box_on_goal {
-    background-image: url(https://i.imgur.com/5Lj1JDG.png);
-    background-size: cover;
-    background-color: #C3BAC3;
-}
-
-.player_on_goal {
-    background-color: #C3BAC3;
-    background-image: url(https://i.imgur.com/TRzqhe7.png);
-    background-size: cover;
-}
-
-.floor {
-    background-color: #C3BAC3;
 }
 
 button {
@@ -84,6 +29,9 @@ button:hover {
     background-color: #5C1128;
     color: #C3BAC3;
 }
+
+/* ------------------------------------------------------------- */
+/* mainPage */
 
 .mainPageButtonContainer {
     margin: 50px auto;
@@ -105,7 +53,6 @@ button:hover {
 /* leaderboardPage */
 .leaderboardPage {
     margin: 0 auto;
-    width: 40vw;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
@@ -141,7 +88,7 @@ button:hover {
 
 .leaderboardPage button {
     grid-area: back;
-
+    
 }
 
 
@@ -150,7 +97,6 @@ button:hover {
 /* createGamePage */
 .newGamePage {
     margin: 0 auto;
-    width: 40vw;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
@@ -174,11 +120,15 @@ button:hover {
 }
 
 .newGamePage .error {
-     grid-area: error;
+    grid-area: error;
 }
 
 .newGamePage button {
-    margin: 20px 0px;
+    margin: 20px;
+}
+
+.newGamePageButtons {
+    grid-area: button;
 }
 
 .createForm {
@@ -199,7 +149,6 @@ button:hover {
 /* loadGamePage */
 .loadGamePage {
     margin: 0 auto;
-    width: 40vw;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
@@ -227,7 +176,11 @@ button:hover {
 }
 
 .loadGamePage button {
-    margin: 20px 0px;
+    margin: 20px;
+}
+
+.loadGamePageButtons {
+    grid-area: button;
 }
 
 .loadForm {
@@ -288,8 +241,8 @@ input:focus {
 .loadingBar {
     margin: 20px auto;
     border: solid 2px #C3BAC3;
-    width: 400px;
-    height: 22px;
+    width: 80%;
+    height: 20%;
     border-radius: 20px;
 }
 
@@ -301,7 +254,7 @@ input:focus {
     height: 100%;
     color: #C3BAC3;
     text-align: right;
-    height: 22px;
+    height: 100%;
     width: 0;
     background-color: #5c1128;
     border-radius: 20px;
@@ -311,7 +264,6 @@ input:focus {
 /* gamePage*/
 
 .gamePage {
-    /* margin: 0 auto; */
     display: grid;
     grid-template-areas:
     'title'
@@ -332,6 +284,62 @@ input:focus {
 
 .gameContainer {
     grid-area: grid;
+    display: flex;
+    justify-content: center;
+}
+
+.map {
+    display: inline-block;
+}
+
+.row {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+}
+
+#point {
+    height: 10vw;
+    width: 10vw;
+    border: solid 1px black;
+}
+
+.wall {
+    background-color: #5C1128;
+}
+
+.player {
+    background-image: url(https://i.imgur.com/CFthw7l.gif);
+    background-size: cover;
+    background-color: #C3BAC3;
+}
+
+.box {
+    background-image: url(https://i.imgur.com/hnJ72Ry.gif);
+    background-size: cover;
+    background-color: #C3BAC3;
+}
+
+.goal {
+    background-image: url(https://i.imgur.com/CkAEbxy.png);
+    background-size: cover;
+    background-color: #C3BAC3;
+}
+
+.box_on_goal {
+    background-image: url(https://i.imgur.com/5Lj1JDG.png);
+    background-size: cover;
+    background-color: #C3BAC3;
+}
+
+.player_on_goal {
+    background-color: #C3BAC3;
+    background-image: url(https://i.imgur.com/TRzqhe7.png);
+    background-size: cover;
+}
+
+.floor {
+    background-color: #C3BAC3;
 }
 
 .gamePage footer {
@@ -421,20 +429,25 @@ input:focus {
         'error'
         'form'
         'form'
+        'buttons'
+        ;
+    }
+
+    .newGamePageButtons, .loadGamePageButtons {
+        grid-area: buttons;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
         'start'
         'back'
         ;
     }
 
-    .newGamePage button {
-        margin: 0px;
-    }
-
-    .newGamePage .backButton {
+    .newGamePageButtons .backButton, .loadGamePageButtons .backButton {
         grid-area: back;
     }
 
-    .newGamePage .startButton {
+    .newGamePage button, .loadGamePageButtons button {
         margin-top: 20px;
     }
 
@@ -446,20 +459,32 @@ input:focus {
         'error'
         'form'
         'form'
-        'start'
-        'back'
+        'buttons'
         ;
     }
 
-    .loadGamePage button {
-        margin: 0px;
+    .gamePage footer {
+        grid-template-areas:
+        'reset'
+        'quit'
+        ;
+        row-gap: 20px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+
+    button {
+        height: 30px;
+        width: 120px;
+        font-size: 12px;
     }
 
-    .loadGamePage .backButton {
-        grid-area: back;
+    h1 {
+        font-size: 16px;
     }
-
-    .loadGamePage .startButton {
-        margin-top: 20px;
+    
+    p {
+        font-size: 12px;
     }
 }
