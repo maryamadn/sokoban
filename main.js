@@ -337,8 +337,8 @@ $('.startButton').on('click', () => {
     if ($('.newGamePage').hasClass('shown')) {
         const $username = $('.createUsername').val()
         const $password = $('.createPassword').val()
-        if ($username === '' || $password === '') {
-            $error.text('Please input a valid entry!')//doesnt take into account multiple spaces......
+        if ($username === '' || $password === '' || $username.includes(' ') || $password.includes(' ')) {
+            $error.text('Please input a valid entry, no spaces allowed!')
         } else {
             if (localStorage.getItem($username) === null) {
                 app.currentUsername = $username

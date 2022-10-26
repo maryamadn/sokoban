@@ -241,7 +241,7 @@ input:focus {
 .loadingBar {
     margin: 20px auto;
     border: solid 2px #C3BAC3;
-    width: 80%;
+    width: 400px;
     height: 20%;
     border-radius: 20px;
 }
@@ -285,7 +285,6 @@ input:focus {
 .gameContainer {
     grid-area: grid;
     display: flex;
-    justify-content: center;
 }
 
 .map {
@@ -293,14 +292,14 @@ input:focus {
 }
 
 .row {
-    margin: 0 auto;
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 #point {
-    height: 10vw;
-    width: 10vw;
+    height: 70px;
+    width: 70px;
     border: solid 1px black;
 }
 
@@ -461,6 +460,17 @@ input:focus {
         'form'
         'buttons'
         ;
+    }
+
+    .loadingBar {
+        width: 100px;
+        height: 20%;
+    }
+
+    #point {
+        height: 40px;
+        width: 40px;
+        border: solid 1px black;
     }
 
     .gamePage footer {
