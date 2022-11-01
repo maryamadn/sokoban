@@ -55,6 +55,8 @@ Currently, there are only 5 levels to the game for the purpose of demonstrating 
 
 ![](https://user-images.githubusercontent.com/106648853/198071031-35e0631c-30ee-43e2-82a2-f83860c32012.png)
 
+- Arrow Keys (for mobile)
+
 
 ### Leaderboard
 - Empty

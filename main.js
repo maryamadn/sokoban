@@ -250,7 +250,6 @@ const paintMap = () => {
 
   $(".up").on("click", () => {
     dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp" }));
-    console.log("up");
   });
 
   const $down = $("<i>").addClass("fa-solid fa-square-caret-down fa-3x down");
@@ -258,7 +257,6 @@ const paintMap = () => {
 
   $(".down").on("click", () => {
     dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }));
-    console.log("down");
   });
 
   const $left = $("<i>").addClass("fa-solid fa-square-caret-left fa-3x left");
@@ -266,7 +264,6 @@ const paintMap = () => {
 
   $(".left").on("click", () => {
     dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" }));
-    console.log("left");
   });
 
   const $right = $("<i>").addClass(
@@ -276,7 +273,6 @@ const paintMap = () => {
 
   $(".right").on("click", () => {
     dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" }));
-    console.log("right");
   });
 
 
