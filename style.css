@@ -269,6 +269,7 @@ input:focus {
     'title'
     'level'
     'grid'
+    'arrows'
     'button'
     ;
     justify-content: center;
@@ -338,6 +339,33 @@ input:focus {
 
 .floor {
     background-color: #C3BAC3;
+}
+
+.gamePage .arrows {
+    margin-top: 15px;
+    grid-area: arrows;
+    display: grid;
+    grid-template-areas:
+    'left updown right'
+    ;
+    justify-content: center;
+    column-gap: 6px;
+}
+
+.updown {
+    grid-area: updown;
+    display: flex;
+    flex-direction: column;
+}
+
+.left {
+    grid-area: left;
+    align-self: flex-end;
+}
+
+.right {
+    grid-area: right;
+    align-self: flex-end;
 }
 
 .gamePage footer {
